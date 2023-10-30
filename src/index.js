@@ -34,10 +34,7 @@ searchForm.addEventListener('submit', async evt => {
 
     Notify.success(`Hooray! We found ${data.totalHits} images.`);
 
-    let lightbox = new SimpleLightbox('.gallery a');
-
-    lightbox.options.captionsData = 'alt';
-    lightbox.options.captionDelay = 250;
+    initLightbox();
 
     if (currentPage !== Math.round(data.totalHits / data.hits.length)) {
       loadMore.hidden = false;
@@ -131,11 +128,17 @@ async function onLoadMore() {
     console.log(error);
     Notify.failure('Sorry, something went wrong!');
   }
+  
+  initLightbox();
+
+  // lightbox.refresh();
+
+}
+
+function initLightbox() {
   let lightbox = new SimpleLightbox('.gallery a');
 
-  lightbox.options.captionsData = 'alt';
-  lightbox.options.captionDelay = 250;
-  
-  // lightbox.refresh();
+    lightbox.options.captionsData = 'alt';
+    lightbox.options.captionDelay = 250;
 
 }
