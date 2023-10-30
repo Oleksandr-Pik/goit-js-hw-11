@@ -135,6 +135,7 @@ async function onLoadMore() {
 
   lightbox.options.captionsData = 'alt';
   lightbox.options.captionDelay = 250;
-  // lightbox.refresh();
   
+  // lightbox.refresh();
+
 }
