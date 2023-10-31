@@ -7,6 +7,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
 const loadMore = document.querySelector('.js-load-more');
+const imgPerPage = 40;
 let query = '';
 let currentPage = 1;
 
@@ -21,7 +22,7 @@ searchForm.addEventListener('submit', async evt => {
 
   try {
     const data = await getImages(query, currentPage);
-    console.log(data.hits);
+    // console.log(data.hits);
 
     if (!data.hits.length) {
       Notify.failure(
@@ -36,7 +37,7 @@ searchForm.addEventListener('submit', async evt => {
 
     initLightbox();
 
-    if (currentPage !== Math.round(data.totalHits / data.hits.length)) {
+    if (currentPage !== Math.ceil(data.totalHits / imgPerPage)) {
       loadMore.hidden = false;
     }
   } catch (error) {
@@ -56,7 +57,7 @@ async function getImages(query, page = 1) {
     orientation: 'horizontal',
     safesearch: true,
     page: page,
-    per_page: 40,
+    per_page: imgPerPage,
   });
 
   try {
@@ -120,7 +121,15 @@ async function onLoadMore() {
 
     gallery.insertAdjacentHTML('beforeend', createMarkup(data.hits));
 
-    if (currentPage == Math.round(data.totalHits / data.hits.length)) {
+    // console.log(currentPage);
+    // console.log(data.totalHits);
+    // console.log(imgPerPage);
+
+    // console.log(Math.ceil(data.totalHits / imgPerPage));
+
+    // console.log(data);
+
+    if (currentPage === Math.ceil(data.totalHits / imgPerPage)) {
       loadMore.hidden = true;
       Notify.info("We're sorry, but you've reached the end of search results.");
     }
